@@ -1,6 +1,6 @@
 ---
 title: "STAT 1560: Week 11 Lab"
-author: Rex Hu
+author: Rex Hu & Glorious King Tony N
 format: pdf
 editor: visual
 ---

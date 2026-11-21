@@ -338,10 +338,3 @@ result <- simulate_arrivals(
 )
 
 print(result)
-
-result2 <- simulate_arrivals(
-  test_rates,
-  "2022-02-17 00:00:00",
-  "2022-02-16 00:00:00"
-)
-print(result2)

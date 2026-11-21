@@ -238,7 +238,8 @@ estimate_arrival_rates(
 #'
 #' @param rates A data frame containing the origin, destination, hour, 
 #' and rate columns.
-#' @param start_time: a POSIXct date-time; the beginning of the simulation window.
+#' @param start_time: a POSIXct date-time; the beginning of the simulation 
+#' window.
 #'
 #' @param end_time: a POSIXct date-time; the end of the simulation window.
 #'
@@ -247,16 +248,11 @@ estimate_arrival_rates(
 #'   origin, destination, and arrival_time.
 #'   Each row represents one simulated customer request.
 #'
-#' @examples
-#' simulate_arrivals(rates, start_time, end_time)
-#'
 simulate_arrivals <- function(rates, start_time, end_time) {
   
-  # Convert the simulation times to POSIXct
   start_time <- as.POSIXct(start_time)
   end_time <- as.POSIXct(end_time)
   
-  # Create an empty arrival table
   arrivals <- data.frame(
     origin = character(),
     destination = character(),
@@ -264,22 +260,18 @@ simulate_arrivals <- function(rates, start_time, end_time) {
   )
   
   pairs <- unique(rates[, c("origin", "destination")])
-  
-  # Loop through each origin-destination pair
+ 
   for (i in 1:(nrow(pairs))) {
     
     origin <- pairs$origin[i]
     destination <- pairs$destination[i]
     
-    # Get the hourly rates for this pair
     pair_rates <- rates[
       rates$origin == origin &
       rates$destination == destination, ]
     
-    # Replace NA rates with zero
     pair_rates$rate[is.na(pair_rates$rate)] <- 0
     
-    # Find the maximum hourly rate
     M <- max(pair_rates$rate)
     
     if (M == 0) {
@@ -330,3 +322,26 @@ simulate_arrivals(estimate_arrival_rates(bike,
                   "2022-02-16 00:00:00", 
                   "2022-02-22 00:00:00")
 
+
+
+test_for_rates <- data.frame(
+  origin = rep("A", 24),
+  destination = rep("B", 24),
+  hour = 0:23,
+  rate = rep(0, 24)
+)
+
+result <- simulate_arrivals(
+  test_for_rates,
+  "2022-02-16 00:00:00",
+  "2022-02-17 00:00:00"
+)
+
+print(result)
+
+result2 <- simulate_arrivals(
+  test_rates,
+  "2022-02-17 00:00:00",
+  "2022-02-16 00:00:00"
+)
+print(result2)
